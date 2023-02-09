@@ -4,8 +4,8 @@ from tqdm import tqdm
 
 PAGES_TO_SAVE = 10
 FROM_CHAPTER  = 1
-TO_CHAPTER    = 6009
-ALL_CHAPTER   = 6009
+TO_CHAPTER    = 1339
+ALL_CHAPTER   = 1339
 
 to_save = ""
 chapters_in_save = []
@@ -27,7 +27,7 @@ def process_content(content):
 
 for chapter_number in tqdm(range(FROM_CHAPTER, TO_CHAPTER+1), initial=FROM_CHAPTER, desc="Chapter", total=ALL_CHAPTER):
     chapters_in_save.append(chapter_number)
-    page = requests.get(f'https://metruyencv.com/truyen/vu-luyen-dien-phong/chuong-{chapter_number}')
+    page = requests.get(f'https://metruyencv.com/truyen/dai-dao-vo-cuc/chuong-{chapter_number}')
     tree = html.fromstring(page.content)
     try:
         title   = tree.xpath('string(//*[@id="js-read__body"]/div[2])').strip()
@@ -45,7 +45,7 @@ for chapter_number in tqdm(range(FROM_CHAPTER, TO_CHAPTER+1), initial=FROM_CHAPT
         print(f'oh shit! {chapter_number}')
 
     if chapter_number % PAGES_TO_SAVE == 0 or chapter_number == TO_CHAPTER:
-        with open(f'data/vo_luyen_dien_phong/vldp_{min(chapters_in_save)}-{max(chapters_in_save)}.txt','w') as f:
+        with open(f'data/dai_dao_vo_cuc/ddvc_{min(chapters_in_save)}-{max(chapters_in_save)}.txt','w') as f:
             f.write(to_save)
         to_save = ""
         chapters_in_save = []
